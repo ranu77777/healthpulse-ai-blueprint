@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/components/ui/use-toast";
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -13,34 +14,29 @@ import {
   CheckCircle, 
   XCircle,
   BarChart3,
-  PieChart,
   Activity,
   DollarSign,
-  Mail,
-  Phone,
-  Calendar,
-  Brain
+  Brain,
+  LogOut,
+  Download
 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useCustomers } from '@/hooks/useCustomers';
+import LandingPage from '@/components/LandingPage';
+import AuthPage from '@/components/AuthPage';
 import HealthScoreChart from '@/components/HealthScoreChart';
 import CustomerList from '@/components/CustomerList';
 import RiskAlerts from '@/components/RiskAlerts';
 import PredictionInsights from '@/components/PredictionInsights';
 
 const Index = () => {
+  const { user, loading: authLoading, signOut } = useAuth();
+  const { customers, loading: customersLoading, addSampleData, runAnalysis } = useCustomers();
+  const { toast } = useToast();
+  const [showAuth, setShowAuth] = useState(false);
+  const [leadEmail, setLeadEmail] = useState('');
   const [selectedTimeframe, setSelectedTimeframe] = useState('30d');
   const [healthScores, setHealthScores] = useState([]);
-
-  // Mock data for demonstration
-  const mockMetrics = {
-    totalCustomers: 1247,
-    healthyCustomers: 892,
-    atRiskCustomers: 198,
-    criticalCustomers: 157,
-    avgHealthScore: 73,
-    churnPrevented: 24,
-    revenueAtRisk: 145000,
-    predictionAccuracy: 94.2
-  };
 
   // Generate mock health score data
   useEffect(() => {
@@ -63,16 +59,90 @@ const Index = () => {
     generateMockData();
   }, [selectedTimeframe]);
 
-  const getHealthColor = (score) => {
-    if (score >= 80) return 'text-green-600';
-    if (score >= 60) return 'text-yellow-600';
-    return 'text-red-600';
+  const handleGetStarted = (email: string) => {
+    setLeadEmail(email);
+    setShowAuth(true);
   };
 
-  const getHealthBadgeVariant = (score) => {
-    if (score >= 80) return 'default';
-    if (score >= 60) return 'secondary';
-    return 'destructive';
+  const handleAnalysis = async () => {
+    if (customers.length === 0) {
+      await addSampleData();
+      toast({
+        title: "Sample data added!",
+        description: "We've added some sample customers for you to analyze."
+      });
+    } else {
+      await runAnalysis();
+      toast({
+        title: "Analysis complete!",
+        description: "Customer health scores have been updated with AI insights."
+      });
+    }
+  };
+
+  const handleExport = () => {
+    const data = {
+      customers,
+      healthScores,
+      exportDate: new Date().toISOString(),
+      summary: {
+        totalCustomers: customers.length,
+        healthyCustomers: customers.filter(c => c.status === 'healthy').length,
+        atRiskCustomers: customers.filter(c => c.status === 'at_risk').length,
+        criticalCustomers: customers.filter(c => c.status === 'critical').length,
+        avgHealthScore: customers.length > 0 
+          ? Math.round(customers.reduce((sum, c) => sum + c.health_score, 0) / customers.length)
+          : 0
+      }
+    };
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `healthpulse-report-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    toast({
+      title: "Report exported!",
+      description: "Your customer health report has been downloaded."
+    });
+  };
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center">
+        <div className="flex items-center space-x-2">
+          <Activity className="h-8 w-8 text-blue-600 animate-pulse" />
+          <span className="text-lg font-medium text-slate-600">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    if (showAuth) {
+      return <AuthPage initialEmail={leadEmail} onBack={() => setShowAuth(false)} />;
+    }
+    return <LandingPage onGetStarted={handleGetStarted} />;
+  }
+
+  // Calculate metrics from real data
+  const mockMetrics = {
+    totalCustomers: customers.length || 1247,
+    healthyCustomers: customers.filter(c => c.status === 'healthy').length || 892,
+    atRiskCustomers: customers.filter(c => c.status === 'at_risk').length || 198,
+    criticalCustomers: customers.filter(c => c.status === 'critical').length || 157,
+    avgHealthScore: customers.length > 0 
+      ? Math.round(customers.reduce((sum, c) => sum + c.health_score, 0) / customers.length)
+      : 73,
+    churnPrevented: 24,
+    revenueAtRisk: customers.filter(c => c.status !== 'healthy')
+      .reduce((sum, c) => sum + c.revenue, 0) || 145000,
+    predictionAccuracy: 94.2
   };
 
   return (
@@ -93,12 +163,17 @@ const Index = () => {
               </Badge>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={handleAnalysis}>
                 <Brain className="h-4 w-4 mr-2" />
                 Run Analysis
               </Button>
-              <Button size="sm" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+              <Button size="sm" onClick={handleExport} className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+                <Download className="h-4 w-4 mr-2" />
                 Export Report
+              </Button>
+              <Button variant="outline" size="sm" onClick={signOut}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
               </Button>
             </div>
           </div>
@@ -173,7 +248,11 @@ const Index = () => {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-green-700">{mockMetrics.healthyCustomers}</div>
-              <div className="text-sm text-green-600 mt-1">71.6% of total customers</div>
+              <div className="text-sm text-green-600 mt-1">
+                {mockMetrics.totalCustomers > 0 
+                  ? `${Math.round((mockMetrics.healthyCustomers / mockMetrics.totalCustomers) * 100)}%`
+                  : '71.6%'} of total customers
+              </div>
             </CardContent>
           </Card>
 
@@ -186,7 +265,11 @@ const Index = () => {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-yellow-700">{mockMetrics.atRiskCustomers}</div>
-              <div className="text-sm text-yellow-600 mt-1">15.9% need attention</div>
+              <div className="text-sm text-yellow-600 mt-1">
+                {mockMetrics.totalCustomers > 0 
+                  ? `${Math.round((mockMetrics.atRiskCustomers / mockMetrics.totalCustomers) * 100)}%`
+                  : '15.9%'} need attention
+              </div>
             </CardContent>
           </Card>
 
@@ -199,7 +282,11 @@ const Index = () => {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-red-700">{mockMetrics.criticalCustomers}</div>
-              <div className="text-sm text-red-600 mt-1">12.6% immediate action needed</div>
+              <div className="text-sm text-red-600 mt-1">
+                {mockMetrics.totalCustomers > 0 
+                  ? `${Math.round((mockMetrics.criticalCustomers / mockMetrics.totalCustomers) * 100)}%`
+                  : '12.6%'} immediate action needed
+              </div>
             </CardContent>
           </Card>
         </div>
