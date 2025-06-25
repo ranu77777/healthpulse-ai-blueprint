@@ -29,6 +29,7 @@ export const useCustomers = () => {
       const { data, error } = await supabase
         .from('customers')
         .select('*')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -100,7 +101,7 @@ export const useCustomers = () => {
   };
 
   const runAnalysis = async () => {
-    // Simulate AI analysis by updating health scores
+    // Only run analysis if we have customers
     if (!user || customers.length === 0) return;
 
     try {
