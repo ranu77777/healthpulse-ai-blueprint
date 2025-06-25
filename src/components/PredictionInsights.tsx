@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -20,8 +19,10 @@ import {
   CheckCircle
 } from 'lucide-react';
 
+type ModelType = 'churn' | 'health' | 'revenue';
+
 const PredictionInsights = () => {
-  const [selectedModel, setSelectedModel] = useState('churn');
+  const [selectedModel, setSelectedModel] = useState<ModelType>('churn');
 
   const modelPerformance = {
     churn: {
@@ -118,7 +119,7 @@ const PredictionInsights = () => {
     }
   ];
 
-  const getInsightIcon = (type) => {
+  const getInsightIcon = (type: string) => {
     switch (type) {
       case 'pattern':
         return Brain;
@@ -133,7 +134,7 @@ const PredictionInsights = () => {
     }
   };
 
-  const getInsightColor = (color) => {
+  const getInsightColor = (color: string) => {
     switch (color) {
       case 'blue':
         return 'text-blue-600 bg-blue-100';
@@ -148,10 +149,14 @@ const PredictionInsights = () => {
     }
   };
 
-  const getRiskColor = (probability) => {
+  const getRiskColor = (probability: number) => {
     if (probability >= 80) return 'text-red-600';
     if (probability >= 60) return 'text-yellow-600';
     return 'text-green-600';
+  };
+
+  const formatMetricName = (metric: string): string => {
+    return metric.replace(/([A-Z])/g, ' $1').trim();
   };
 
   return (
@@ -355,10 +360,10 @@ const PredictionInsights = () => {
                   {Object.entries(modelPerformance[selectedModel]).map(([metric, value]) => (
                     <div key={metric} className="flex items-center justify-between">
                       <span className="text-sm text-slate-600 capitalize">
-                        {metric.replace(/([A-Z])/g, ' $1').trim()}
+                        {formatMetricName(metric)}
                       </span>
                       <div className="flex items-center space-x-2">
-                        <Progress value={value} className="w-24 h-2" />
+                        <Progress value={value as number} className="w-24 h-2" />
                         <span className="text-sm font-medium">{value}%</span>
                       </div>
                     </div>
@@ -373,7 +378,7 @@ const PredictionInsights = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {Object.keys(modelPerformance).map((model) => (
+                  {(Object.keys(modelPerformance) as ModelType[]).map((model) => (
                     <Button
                       key={model}
                       variant={selectedModel === model ? "default" : "outline"}
