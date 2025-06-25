@@ -32,7 +32,18 @@ export const useCustomers = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setCustomers(data || []);
+      
+      // Type the data properly to match our Customer interface
+      const typedCustomers: Customer[] = (data || []).map(customer => ({
+        ...customer,
+        status: customer.status as 'healthy' | 'at_risk' | 'critical',
+        company: customer.company || '',
+        health_score: customer.health_score || 0,
+        revenue: customer.revenue || 0,
+        last_activity: customer.last_activity || new Date().toISOString()
+      }));
+      
+      setCustomers(typedCustomers);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -93,17 +104,20 @@ export const useCustomers = () => {
     if (!user || customers.length === 0) return;
 
     try {
-      const updates = customers.map(customer => ({
-        id: customer.id,
-        health_score: Math.max(0, Math.min(100, customer.health_score + (Math.random() - 0.5) * 20)),
-        status: customer.health_score > 80 ? 'healthy' : customer.health_score > 50 ? 'at_risk' : 'critical'
-      }));
+      const updates = customers.map(customer => {
+        const newScore = Math.max(0, Math.min(100, customer.health_score + (Math.random() - 0.5) * 20));
+        return {
+          id: customer.id,
+          health_score: Math.round(newScore),
+          status: newScore > 80 ? 'healthy' : newScore > 50 ? 'at_risk' : 'critical'
+        };
+      });
 
       for (const update of updates) {
         await supabase
           .from('customers')
           .update({ 
-            health_score: Math.round(update.health_score),
+            health_score: update.health_score,
             status: update.status
           })
           .eq('id', update.id);
