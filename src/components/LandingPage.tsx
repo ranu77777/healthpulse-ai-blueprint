@@ -17,7 +17,8 @@ import {
   BarChart3,
   Clock,
   Target,
-  DollarSign
+  DollarSign,
+  Brain
 } from 'lucide-react';
 
 interface LandingPageProps {
