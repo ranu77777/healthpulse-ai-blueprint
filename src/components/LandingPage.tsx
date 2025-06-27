@@ -12,14 +12,11 @@ import {
   TrendingUp, 
   Users, 
   CheckCircle,
-  Star,
   ArrowRight,
   BarChart3,
   Bell,
   Mail,
-  Slack,
   Play,
-  ChevronDown,
   Globe,
   Lock,
   Clock
@@ -49,25 +46,25 @@ const LandingPage = ({ onGetStarted }: LandingPageProps) => {
       icon: Brain,
       title: "AI-Powered Health Scoring",
       description: "Advanced machine learning algorithms analyze customer behavior patterns to predict churn risk with 94.2% accuracy.",
-      color: "blue"
+      color: "from-blue-500 to-cyan-500"
     },
     {
       icon: Bell,
       title: "Real-Time Risk Alerts",
       description: "Get instant notifications when customers show signs of disengagement, enabling proactive intervention.",
-      color: "red"
+      color: "from-purple-500 to-pink-500"
     },
     {
       icon: BarChart3,
       title: "Predictive Analytics",
       description: "Forecast customer lifetime value and identify expansion opportunities before your competitors.",
-      color: "green"
+      color: "from-green-500 to-emerald-500"
     },
     {
-      icon: Mail,
+      icon: Zap,
       title: "Automated Workflows",
       description: "Trigger personalized re-engagement campaigns based on customer health score changes.",
-      color: "purple"
+      color: "from-orange-500 to-red-500"
     }
   ];
 
@@ -80,33 +77,6 @@ const LandingPage = ({ onGetStarted }: LandingPageProps) => {
     { name: 'OpenAI', icon: '🤖' }
   ];
 
-  const testimonials = [
-    {
-      name: "Sarah Chen",
-      role: "VP of Customer Success",
-      company: "TechFlow Solutions",
-      content: "HealthPulse helped us reduce churn by 67% in just 3 months. The AI predictions are incredibly accurate.",
-      rating: 5,
-      avatar: "SC"
-    },
-    {
-      name: "Marcus Rodriguez",
-      role: "Head of Growth",
-      company: "DataCore Inc",
-      content: "The real-time alerts saved us $2.3M in revenue. We can now act before customers even think about leaving.",
-      rating: 5,
-      avatar: "MR"
-    },
-    {
-      name: "Emily Foster",
-      role: "Customer Success Director",
-      company: "CloudScale",
-      content: "Best customer health platform we've used. The integrations work flawlessly with our existing stack.",
-      rating: 5,
-      avatar: "EF"
-    }
-  ];
-
   const stats = [
     { value: "94.2%", label: "Prediction Accuracy" },
     { value: "67%", label: "Churn Reduction" },
@@ -115,7 +85,7 @@ const LandingPage = ({ onGetStarted }: LandingPageProps) => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white">
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
@@ -124,21 +94,23 @@ const LandingPage = ({ onGetStarted }: LandingPageProps) => {
       </div>
 
       {/* Navigation */}
-      <nav className="relative z-10 px-6 py-4">
+      <nav className="relative z-10 px-6 py-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             <Activity className="h-8 w-8 text-blue-400" />
-            <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
               HealthPulse
             </span>
-            <Badge variant="outline" className="text-blue-400 border-blue-400">Enterprise</Badge>
+            <Badge variant="outline" className="text-blue-400 border-blue-400/50 bg-blue-400/10">
+              Enterprise
+            </Badge>
           </div>
           
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="hover:text-blue-400 transition-colors">Features</a>
-            <a href="#integrations" className="hover:text-blue-400 transition-colors">Integrations</a>
-            <a href="#pricing" className="hover:text-blue-400 transition-colors">Pricing</a>
-            <Button variant="outline" className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white">
+            <a href="#features" className="text-slate-300 hover:text-blue-400 transition-colors">Features</a>
+            <a href="#integrations" className="text-slate-300 hover:text-blue-400 transition-colors">Integrations</a>
+            <a href="#pricing" className="text-slate-300 hover:text-blue-400 transition-colors">Pricing</a>
+            <Button variant="outline" className="border-blue-400/50 text-blue-400 hover:bg-blue-400 hover:text-white transition-all">
               Sign In
             </Button>
           </div>
@@ -148,44 +120,46 @@ const LandingPage = ({ onGetStarted }: LandingPageProps) => {
       {/* Hero Section */}
       <section className="relative z-10 px-6 py-20">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className={`space-y-8 transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-              <div className="space-y-4">
-                <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">
-                  🚀 New: AI-Powered Churn Prevention
+              <div className="space-y-6">
+                <Badge className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-300 border-blue-500/30 px-4 py-2">
+                  🚀 AI-Powered Churn Prevention
                 </Badge>
-                <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
+                <h1 className="text-6xl lg:text-7xl font-bold leading-tight">
                   Stop Customer Churn
-                  <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+                  <span className="block bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent">
                     Before It Happens
                   </span>
                 </h1>
-                <p className="text-xl text-slate-300 leading-relaxed">
+                <p className="text-xl text-slate-300 leading-relaxed max-w-2xl">
                   Predict customer churn with 94.2% accuracy using AI. Get real-time health scores, 
                   automated alerts, and actionable insights to save revenue and boost retention.
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <form onSubmit={handleSubmit} className="flex-1">
-                  <div className="flex gap-2">
-                    <Input
-                      type="email"
-                      placeholder="Enter your business email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-slate-400"
-                      required
-                    />
-                    <Button type="submit" size="lg" className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700">
-                      Start Free Trial
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </div>
-                </form>
-              </div>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Input
+                    type="email"
+                    placeholder="Enter your business email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="flex-1 h-14 bg-white/10 border-white/20 text-white placeholder:text-slate-400 backdrop-blur-sm"
+                    required
+                  />
+                  <Button 
+                    type="submit" 
+                    size="lg" 
+                    className="h-14 px-8 bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 font-semibold"
+                  >
+                    Start Free Trial
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </div>
+              </form>
 
-              <div className="flex items-center space-x-6 text-sm text-slate-400">
+              <div className="flex flex-wrap items-center gap-6 text-sm text-slate-400">
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4 text-green-400" />
                   <span>14-day free trial</span>
@@ -204,53 +178,58 @@ const LandingPage = ({ onGetStarted }: LandingPageProps) => {
             {/* Interactive Dashboard Preview */}
             <div className={`transform transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl blur-xl opacity-20"></div>
-                <Card className="relative bg-slate-800/50 backdrop-blur-xl border-slate-700 p-6">
-                  <div className="space-y-6">
-                    {/* Dashboard Header */}
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold text-white">Customer Health Dashboard</h3>
-                      <Badge className="bg-green-500/20 text-green-300">Live</Badge>
-                    </div>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-3xl blur-2xl opacity-20"></div>
+                <Card className="relative bg-slate-800/50 backdrop-blur-xl border-slate-700/50 shadow-2xl">
+                  <CardContent className="p-8">
+                    <div className="space-y-6">
+                      {/* Dashboard Header */}
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-lg font-semibold text-white">Customer Health Dashboard</h3>
+                        <Badge className="bg-green-500/20 text-green-300 border-green-500/30">
+                          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse mr-2"></div>
+                          Live
+                        </Badge>
+                      </div>
 
-                    {/* Stats Grid */}
-                    <div className="grid grid-cols-2 gap-4">
-                      {stats.map((stat, index) => (
-                        <div key={index} className="bg-slate-700/50 rounded-lg p-4">
-                          <div className="text-2xl font-bold text-white">{stat.value}</div>
-                          <div className="text-sm text-slate-400">{stat.label}</div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Customer List Preview */}
-                    <div className="space-y-3">
-                      <h4 className="text-sm font-medium text-slate-300">Recent Alerts</h4>
-                      <div className="space-y-2">
-                        {[
-                          { name: "Acme Corp", score: 92, status: "healthy", trend: "up" },
-                          { name: "TechFlow", score: 68, status: "at_risk", trend: "down" },
-                          { name: "DataCore", score: 35, status: "critical", trend: "down" }
-                        ].map((customer, index) => (
-                          <div key={index} className="flex items-center justify-between bg-slate-700/30 rounded-lg p-3">
-                            <div className="flex items-center space-x-3">
-                              <div className={`w-3 h-3 rounded-full ${
-                                customer.status === 'healthy' ? 'bg-green-400' :
-                                customer.status === 'at_risk' ? 'bg-yellow-400' : 'bg-red-400'
-                              }`}></div>
-                              <span className="text-white text-sm">{customer.name}</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <span className="text-white font-medium">{customer.score}%</span>
-                              <TrendingUp className={`h-4 w-4 ${
-                                customer.trend === 'up' ? 'text-green-400' : 'text-red-400'
-                              }`} />
-                            </div>
+                      {/* Stats Grid */}
+                      <div className="grid grid-cols-2 gap-4">
+                        {stats.map((stat, index) => (
+                          <div key={index} className="bg-gradient-to-br from-slate-700/50 to-slate-800/50 rounded-xl p-4 border border-slate-600/30">
+                            <div className="text-2xl font-bold text-white">{stat.value}</div>
+                            <div className="text-sm text-slate-400">{stat.label}</div>
                           </div>
                         ))}
                       </div>
+
+                      {/* Customer List Preview */}
+                      <div className="space-y-3">
+                        <h4 className="text-sm font-medium text-slate-300">Recent Alerts</h4>
+                        <div className="space-y-2">
+                          {[
+                            { name: "Acme Corp", score: 92, status: "healthy", trend: "up" },
+                            { name: "TechFlow", score: 68, status: "at_risk", trend: "down" },
+                            { name: "DataCore", score: 35, status: "critical", trend: "down" }
+                          ].map((customer, index) => (
+                            <div key={index} className="flex items-center justify-between bg-slate-700/30 rounded-lg p-3 border border-slate-600/20">
+                              <div className="flex items-center space-x-3">
+                                <div className={`w-3 h-3 rounded-full ${
+                                  customer.status === 'healthy' ? 'bg-green-400' :
+                                  customer.status === 'at_risk' ? 'bg-yellow-400' : 'bg-red-400'
+                                }`}></div>
+                                <span className="text-white text-sm font-medium">{customer.name}</span>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <span className="text-white font-semibold">{customer.score}%</span>
+                                <TrendingUp className={`h-4 w-4 ${
+                                  customer.trend === 'up' ? 'text-green-400' : 'text-red-400 rotate-180'
+                                }`} />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  </CardContent>
                 </Card>
               </div>
             </div>
@@ -259,24 +238,28 @@ const LandingPage = ({ onGetStarted }: LandingPageProps) => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="relative z-10 px-6 py-20 bg-slate-800/30">
+      <section id="features" className="relative z-10 px-6 py-24 bg-slate-800/20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Powered by Advanced AI</h2>
-            <p className="text-xl text-slate-300">Everything you need to prevent churn and grow revenue</p>
+            <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+              Powered by Advanced AI
+            </h2>
+            <p className="text-xl text-slate-300 max-w-2xl mx-auto">
+              Everything you need to prevent churn and grow revenue with cutting-edge technology
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => {
               const IconComponent = feature.icon;
               return (
-                <Card key={index} className="bg-slate-800/50 backdrop-blur-xl border-slate-700 hover:border-blue-500/50 transition-all duration-300 hover:transform hover:scale-105">
-                  <CardContent className="p-6">
-                    <div className={`w-12 h-12 rounded-lg bg-${feature.color}-500/20 flex items-center justify-center mb-4`}>
-                      <IconComponent className={`h-6 w-6 text-${feature.color}-400`} />
+                <Card key={index} className="bg-slate-800/50 backdrop-blur-xl border-slate-700/50 hover:border-blue-500/30 transition-all duration-500 hover:transform hover:scale-105 group">
+                  <CardContent className="p-8">
+                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${feature.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                      <IconComponent className="h-8 w-8 text-white" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
-                    <p className="text-slate-400 text-sm">{feature.description}</p>
+                    <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
+                    <p className="text-slate-400 leading-relaxed">{feature.description}</p>
                   </CardContent>
                 </Card>
               );
@@ -286,51 +269,21 @@ const LandingPage = ({ onGetStarted }: LandingPageProps) => {
       </section>
 
       {/* Integrations */}
-      <section id="integrations" className="relative z-10 px-6 py-20">
+      <section id="integrations" className="relative z-10 px-6 py-24">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-4">Seamless Integrations</h2>
-          <p className="text-xl text-slate-300 mb-12">Connect with your existing tools in seconds</p>
+          <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+            Seamless Integrations
+          </h2>
+          <p className="text-xl text-slate-300 mb-16 max-w-2xl mx-auto">
+            Connect with your existing tools in seconds. No complex setup required.
+          </p>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {integrations.map((integration, index) => (
-              <Card key={index} className="bg-slate-800/50 backdrop-blur-xl border-slate-700 hover:border-blue-500/50 transition-all duration-300">
+              <Card key={index} className="bg-slate-800/50 backdrop-blur-xl border-slate-700/50 hover:border-blue-500/30 transition-all duration-300 hover:transform hover:scale-105">
                 <CardContent className="p-6 text-center">
-                  <div className="text-3xl mb-2">{integration.icon}</div>
-                  <div className="text-sm text-slate-300">{integration.name}</div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="relative z-10 px-6 py-20 bg-slate-800/30">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Trusted by Industry Leaders</h2>
-            <p className="text-xl text-slate-300">See what our customers say about HealthPulse</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="bg-slate-800/50 backdrop-blur-xl border-slate-700">
-                <CardContent className="p-6">
-                  <div className="flex items-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-slate-300 mb-6">"{testimonial.content}"</p>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-                      {testimonial.avatar}
-                    </div>
-                    <div>
-                      <div className="text-white font-medium">{testimonial.name}</div>
-                      <div className="text-slate-400 text-sm">{testimonial.role} • {testimonial.company}</div>
-                    </div>
-                  </div>
+                  <div className="text-4xl mb-3">{integration.icon}</div>
+                  <div className="text-sm text-slate-300 font-medium">{integration.name}</div>
                 </CardContent>
               </Card>
             ))}
@@ -339,42 +292,46 @@ const LandingPage = ({ onGetStarted }: LandingPageProps) => {
       </section>
 
       {/* CTA Section */}
-      <section className="relative z-10 px-6 py-20">
+      <section className="relative z-10 px-6 py-24 bg-gradient-to-r from-blue-900/50 to-indigo-900/50">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl font-bold mb-6">
+          <h2 className="text-6xl font-bold mb-8 bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent">
             Ready to Stop Losing Customers?
           </h2>
-          <p className="text-xl text-slate-300 mb-8">
-            Join 500+ companies using HealthPulse to predict and prevent customer churn
+          <p className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto">
+            Join forward-thinking companies using HealthPulse to predict and prevent customer churn with AI
           </p>
           
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-            <div className="flex gap-2">
+          <form onSubmit={handleSubmit} className="max-w-lg mx-auto mb-12">
+            <div className="flex flex-col sm:flex-row gap-3">
               <Input
                 type="email"
                 placeholder="Enter your business email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-slate-400"
+                className="flex-1 h-14 bg-white/10 border-white/20 text-white placeholder:text-slate-400 backdrop-blur-sm"
                 required
               />
-              <Button type="submit" size="lg" className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700">
+              <Button 
+                type="submit" 
+                size="lg" 
+                className="h-14 px-8 bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 font-semibold"
+              >
                 Start Free Trial
               </Button>
             </div>
           </form>
 
-          <div className="flex items-center justify-center space-x-8 mt-8 text-sm text-slate-400">
+          <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-slate-400">
             <div className="flex items-center space-x-2">
-              <Shield className="h-4 w-4" />
+              <Shield className="h-5 w-5 text-blue-400" />
               <span>Enterprise Security</span>
             </div>
             <div className="flex items-center space-x-2">
-              <Clock className="h-4 w-4" />
+              <Clock className="h-5 w-5 text-green-400" />
               <span>5-min Setup</span>
             </div>
             <div className="flex items-center space-x-2">
-              <Globe className="h-4 w-4" />
+              <Globe className="h-5 w-5 text-purple-400" />
               <span>99.9% Uptime</span>
             </div>
           </div>
@@ -382,12 +339,15 @@ const LandingPage = ({ onGetStarted }: LandingPageProps) => {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 px-6 py-12 bg-slate-900/50 border-t border-slate-800">
+      <footer className="relative z-10 px-6 py-12 border-t border-slate-800/50">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <Activity className="h-6 w-6 text-blue-400" />
               <span className="text-lg font-bold text-white">HealthPulse</span>
+              <Badge variant="outline" className="text-blue-400 border-blue-400/50 bg-blue-400/10 text-xs">
+                Enterprise
+              </Badge>
             </div>
             <div className="text-slate-400 text-sm">
               © 2024 HealthPulse. All rights reserved.
