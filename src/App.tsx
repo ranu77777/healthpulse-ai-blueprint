@@ -11,6 +11,7 @@ import Customers from "./pages/Customers";
 import Alerts from "./pages/Alerts";
 import Insights from "./pages/Insights";
 import Analytics from "./pages/Analytics";
+import Workflows from "./pages/Workflows";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

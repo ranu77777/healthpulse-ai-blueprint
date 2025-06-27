@@ -20,7 +20,8 @@ import {
   Settings, 
   BarChart3,
   Shield,
-  LogOut
+  LogOut,
+  Zap
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
