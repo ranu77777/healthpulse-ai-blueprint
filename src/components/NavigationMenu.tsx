@@ -35,6 +35,7 @@ const AppNavigationMenu = () => {
     { icon: AlertTriangle, label: 'Risk Alerts', path: '/alerts' },
     { icon: Brain, label: 'AI Insights', path: '/insights' },
     { icon: BarChart3, label: 'Analytics', path: '/analytics' },
+    { icon: Zap, label: 'AI Workflows', path: '/workflows' },
     { icon: Settings, label: 'Settings', path: '/settings' },
   ];
 
